@@ -1,0 +1,5 @@
+NET "inputSwitch" LOC = G18;
+NET "led0" LOC = J14;
+NET "led1" LOC = J15;
+NET "led2" LOC = K15;
+NET "led3" LOC = K14;
