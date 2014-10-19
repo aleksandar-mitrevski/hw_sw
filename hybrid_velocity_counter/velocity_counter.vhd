@@ -10,10 +10,10 @@ end HybridVelocityCounter;
 
 architecture velocity of HybridVelocityCounter is
     type measurementTypes is (HighSpeed, LowSpeed);
-    constant clockFrequency : integer := 20; -- frequency in nanoseconds
+    constant clockFrequency : integer := 25; -- frequency in nanoseconds
     constant samplingPeriod: integer := 1500; -- sampling period in nanoseconds
     constant minimumHighSpeedCounter : integer := 5;
-    constant maximumLowSpeed : real := 0.01;
+    constant maximumLowSpeed : real := 0.005;
 
     signal currentMeasurementType : measurementTypes := HighSpeed;
 
@@ -21,7 +21,7 @@ begin
     speedMeasurement: process(clk)
         variable pulseCounter : integer := 0;
         variable timeChange : integer := 0;
-        variable counted : std_logic;
+        variable counted : std_logic := '0';
         variable timeReal : real;
         variable currentSpeed : real;
         variable measuringTime : std_logic;
