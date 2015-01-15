@@ -39,10 +39,9 @@ package body exploration_pkg is
     begin
         isExplored := '1';
         for i in 0 to NUMBER_OF_CELLS-1 loop
-                if grid(i) = '0' then
-                    isExplored := '0';
-                end if;
-            end loop;
+            if grid(i) = '0' then
+                isExplored := '0';
+            end if;
         end loop;
 
         if isExplored = '1' and numberOfNuggetsToCollect > 0 then
