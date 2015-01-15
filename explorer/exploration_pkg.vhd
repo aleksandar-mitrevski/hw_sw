@@ -117,7 +117,7 @@ package body exploration_pkg is
 
         cost = LINEAR_COST * linearDistance + ANGULAR_COST * angularDistance;
         return cost;
-    end costFunction;
+    end calculateCellCost;
 
     --- Transforms 'angle' so that it lies in the (0,2*pi) range.
     ---
