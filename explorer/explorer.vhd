@@ -3,39 +3,34 @@ use ieee.std_logic_1164.all;
 use work.exploration_pkg.all;
 
 entity Explorer is port (
-    currentX, currentY, currentTheta : in real;
-    x, y : out integer);
+    currentCell : in integer;
+    currentOrientation : in real;
+    currentCellsInView : in gridArray;
+    numberOfNuggetsToCollect : in integer;
+    next_goal : out integer);
 end Explorer;
 
 architecture explorer of Explorer is
-    ---------------
-    -- Conventions
-    ---------------
-    -- Whether to publish a new goal depends on whether the current pose of the robot is equal to the desired one
-
     component ExplorationGrid
-        port(currentX, currentY: in real;
+        port(currentCellsInView: in gridArray;
              grid : out gridArray);
     end component;
 
-    signal gridMap : gridArray;
-    signal gridExplored;
+    signal currentCellsinView : gridArray;
+    signal grid : gridArray;
 begin
-    componentMap : ExplorationGrid port map (grid => gridMap);
+    componentMap : ExplorationGrid port map (currentCellsInView => currentCellsInView, grid => grid);
 
-    process(gridMap)
-        variable mapExplored : std_logic;
-        variable currentGridCoordinates : integer_array;
-        variable goalGridCoordinates : integer_array;
+    process(numberOfNuggetsToCollect)
+        variable mapExplored : std_logic := '0';
     begin
-        mapExplored := isGridExplored(gridMap);
-        if mapExplored then
-            x <= -1;
-            y <= -1;
+        mapExplored := isGridExplored(grid, numberOfNuggetsToCollect);
+        if mapExplored = '1' then
+            next_goal <= -1;
         else
-            currentGridCoordinates := worldToGrid(currentX, currentY);
-            --magic
-            x <= grid
+            if numberOfNuggetsToCollect = 0 then
+                next_goal <= calculateCosts(currentCell, currentOrientation, grid);
+            end if;
         end if;
     end process;
 end explorer;
